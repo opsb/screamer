@@ -46,7 +46,8 @@ defmodule Screamer.ConversationChannel do
   def handle_in("addMessage", message, socket) do
     conversation_id = socket.assigns.conversation_id
     conversation = Repo.get! Conversation, conversation_id
-    changeset = build_assoc(conversation, :messages) |> Message.changeset(message)
+    message = build_assoc(conversation, :messages)
+    changeset = message |> Message.changeset(message)
 
     case Repo.insert(changeset) do
       {:ok, message} ->
